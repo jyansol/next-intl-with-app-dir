@@ -1,12 +1,18 @@
+import { notFound } from 'next/navigation';
 import { getRequestConfig } from 'next-intl/server';
 
-export default getRequestConfig(async () => {
-  // Provide a static locale, fetch a user setting,
-  // read from `cookies()`, `headers()`, etc.
-  const locale = 'ko';
+export const locales = ['en', 'ko'] as const;
+
+export default getRequestConfig(async ({ locale }) => {
+  // Validate that the incoming `locale` parameter is valid
+  if (!locales.includes(locale as any)) notFound();
 
   return {
-    locale,
-    messages: (await import(`../messages/${locale}.json`)).default
+    messages: (
+      await (locale === 'en'
+        ? // When using Turbopack, this will enable HMR for `en`
+        import('../messages/en.json')
+        : import(`../messages/${locale}.json`))
+    ).default
   };
 });

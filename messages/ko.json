@@ -1,5 +1,9 @@
 {
   "Index": {
     "title": "안녕하세요!"
+  },
+  "LocaleSwitcher": {
+    "label": "언어",
+    "locale": "{locale, select, ko {🇰🇷 한국어} en {🇺🇸 영어} other {Unknown}}"
   }
 }
